@@ -23,14 +23,16 @@ class GameActivity : AppCompatActivity() {
     // list for used buttons for computer functions
     private var usedButtons = mutableListOf<Button>()
 
-    // list for unused buttons for computer functions
-    private var unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
+    // lateinit var for unused buttons
+    private lateinit var unusedButtons: MutableList<Button>
 
     // name of user
     private val name = intent.getStringExtra("EXTRA_NAME")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        // list for unused buttons for computer functions
+        unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
     }
 
     //Checks for a winner
@@ -121,5 +123,12 @@ class GameActivity : AppCompatActivity() {
         winner = false
         draw = false
     }
+
+    // function for computer move
+    private fun compMove() {
+        // check for a winning move
+
+    }
+
 
 }
