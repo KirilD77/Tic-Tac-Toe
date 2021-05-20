@@ -27,12 +27,13 @@ class GameActivity : AppCompatActivity() {
     private lateinit var unusedButtons: MutableList<Button>
 
     // name of user
-    private val name = intent.getStringExtra("EXTRA_NAME")
+    private lateinit var name: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         // list for unused buttons for computer functions
         unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
+        name = intent.getStringExtra("EXTRA_NAME").toString()
     }
 
     //Checks for a winner
@@ -44,32 +45,32 @@ class GameActivity : AppCompatActivity() {
         // When Block checks for possible winning combinations
         when {
             // checks all horizontals
-            usedButtons.containsAll(listOf(a1, a2, a3)) -> {
+            usedButtons.containsAll(listOf(a1, a2, a3)) && (a1.text == a2.text) && a1.text.isNotEmpty() -> {
                 winner = true
             }
-            usedButtons.containsAll(listOf(b1, b2, b3)) -> {
+            usedButtons.containsAll(listOf(b1, b2, b3)) && (b1.text == b2.text && b1.text == b3.text) && b1.text.isNotEmpty() -> {
                 winner = true
             }
-            usedButtons.containsAll(listOf(c1, c2, c3)) -> {
+            usedButtons.containsAll(listOf(c1, c2, c3)) && (c1.text == c2.text && c1.text == c3.text) && c1.text.isNotEmpty() -> {
                 winner = true
             }
 
             // checks all verticals
-            usedButtons.containsAll(listOf(a1, b1, c1)) -> {
+            usedButtons.containsAll(listOf(a1, b1, c1)) && (a1.text == b1.text && a1.text == c1.text) && a1.text.isNotEmpty() -> {
                 winner = true
             }
-            usedButtons.containsAll(listOf(a2, b2, c2)) -> {
+            usedButtons.containsAll(listOf(a2, b2, c2)) && (a2.text == b2.text && a2.text == c2.text) && a2.text.isNotEmpty() -> {
                 winner = true
             }
-            usedButtons.containsAll(listOf(a3, b3, c3)) -> {
+            usedButtons.containsAll(listOf(a3, b3, c3)) && (a3.text == b3.text && a3.text == c3.text) && a3.text.isNotEmpty() -> {
                 winner = true
             }
 
             // checks all diagonals
-            usedButtons.containsAll(listOf(a1, b2, c3)) -> {
+            usedButtons.containsAll(listOf(a1, b2, c3)) && (a1.text == b2.text && a1.text == c3.text) && a1.text.isNotEmpty() -> {
                 winner = true
             }
-            usedButtons.containsAll(listOf(a3, b2, c1)) -> {
+            usedButtons.containsAll(listOf(a3, b2, c1)) && (a3.text == b2.text && a3.text == c1.text) && a3.text.isNotEmpty() -> {
                 winner = true
             }
 
@@ -91,27 +92,26 @@ class GameActivity : AppCompatActivity() {
         } else {
             usedButtons.add(btn)
             unusedButtons.remove(btn)
+            btn.text = if (turn) "X" else "O"
+            // switches moves
+            turn = !turn
+            //quantity of moves
+            count += 1
+            // check for a winner
+            checkAWinner()
+            // possible cases
+            when {
+                draw -> {
+                    tvGameState.text = getString(R.string.Draw_message)
+                    reset()
+                }
+                winner -> {
+                    tvGameState.text = if (turn) "$name won!!!" else "Computer won!!!"
+                    reset()
+                }
+            }
         }
-        // means that it is Players move
-        btn.text = if (turn) "X" else "O"
-        // switches moves
-        turn = !turn
-        //quantity of moves
-        count += 1
 
-        // check for a winner
-        checkAWinner()
-        // possible cases
-        when {
-            draw -> {
-                tvGameState.text = getString(R.string.Draw_message)
-                reset()
-            }
-            winner -> {
-                tvGameState.text = if (turn) "$name won!!!" else "Computer won!!!"
-                reset()
-            }
-        }
     }
 
 
@@ -128,7 +128,6 @@ class GameActivity : AppCompatActivity() {
     // function for computer move
     private fun compMove() {
         // check for a winning move
-
 
     }
 
