@@ -9,16 +9,16 @@ import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
     // counter for moves
-    var count: Int = 0
+    private var count: Int = 0
 
     //boolean variable for winner
-    var winner = false
+    private var winner = false
 
     // boolean variable for draw case
     var draw = false
 
     // true if it is Players move and false otherwise
-    var turn: Boolean = true
+    private var turn: Boolean = true
 
     // list for used buttons for computer functions
     private var usedButtons = mutableListOf<Button>()
@@ -27,7 +27,7 @@ class GameActivity : AppCompatActivity() {
     private var unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
 
     // name of user
-    val name = intent.getStringExtra("EXTRA_NAME")
+    private val name = intent.getStringExtra("EXTRA_NAME")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -72,7 +72,7 @@ class GameActivity : AppCompatActivity() {
             }
 
             // draw case
-            count == 9 && !winner ->{
+            count == 9 && !winner -> {
                 draw = true
             }
 
@@ -96,8 +96,30 @@ class GameActivity : AppCompatActivity() {
             //quantity of moves
             count += 1
         }
+        // check for a winner
+        checkAWinner()
+        // possible cases
+        when {
+            draw -> {
+                tvGameState.text = getString(R.string.Draw_message)
+                reset()
+            }
+            winner -> {
+                tvGameState.text = if (turn) "$name won!!!" else "Computer won!!!"
+                reset()
+            }
+        }
 
     }
 
+    // function that resets the game(sets everything to initial state)
+    private fun reset() {
+        usedButtons.clear()
+        unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
+        count = 0
+        turn = true
+        winner = false
+        draw = false
+    }
 
 }
