@@ -91,13 +91,14 @@ class GameActivity : AppCompatActivity() {
         } else {
             usedButtons.add(btn)
             unusedButtons.remove(btn)
-            // means that it is Players move
-            btn.text = if (turn) "X" else "O"
-            // switches moves
-            turn = !turn
-            //quantity of moves
-            count += 1
         }
+        // means that it is Players move
+        btn.text = if (turn) "X" else "O"
+        // switches moves
+        turn = !turn
+        //quantity of moves
+        count += 1
+
         // check for a winner
         checkAWinner()
         // possible cases
@@ -111,8 +112,8 @@ class GameActivity : AppCompatActivity() {
                 reset()
             }
         }
-
     }
+
 
     // function that resets the game(sets everything to initial state)
     private fun reset() {
@@ -128,7 +129,7 @@ class GameActivity : AppCompatActivity() {
     private fun compMove() {
         // check for a winning move
 
-    }
 
+    }
 
 }
