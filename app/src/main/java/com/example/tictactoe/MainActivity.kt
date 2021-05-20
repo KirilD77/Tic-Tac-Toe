@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Enter your name please)", Toast.LENGTH_SHORT).show()
             }
             else{
-                intent = Intent()
+                intent = Intent(this, GameActivity::class.java)
+                intent.putExtra("EXTRA_NAME", name)
+                startActivity(intent)
             }
         }
 

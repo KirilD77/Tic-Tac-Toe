@@ -3,4 +3,5 @@
     <string name="tic_tac_toe">Tic-Tac-Toe</string>
     <string name="Hint_for_etName">Enter your name</string>
     <string name="btn_Play">Play</string>
+    <string name="tic_tac_toe_game_is_in_process">Tic Tac Toe game is in process</string>
 </resources>
