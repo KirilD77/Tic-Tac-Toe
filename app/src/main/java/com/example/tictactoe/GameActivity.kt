@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
-import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
     // counter for moves
@@ -159,21 +158,6 @@ class GameActivity : AppCompatActivity() {
                     reset()
                 }
             }
-            // makes a computer move
-            compMove()
-            checkAWinner()
-            // possible cases
-            when {
-                draw -> {
-                    tvGameState.text = getString(R.string.Draw_message)
-                    reset()
-                }
-                winner -> {
-                    tvGameState.text = if (turn) "$name won!!!" else "Computer won!!!"
-                    reset()
-                }
-            }
-
         }
 
     }
@@ -183,7 +167,7 @@ class GameActivity : AppCompatActivity() {
     private fun reset() {
         usedButtons.clear()
         unusedButtons = mutableListOf(a1, a2, a3, b1, b2, b3, c1, c2, c3)
-        for (button in unusedButtons) {
+        for (button in usedButtons) {
             button.text = ""
         }
         count = 0
@@ -193,367 +177,199 @@ class GameActivity : AppCompatActivity() {
     }
 
     // checks possible winning or loosing combinations
-    private fun checker(char: String): Boolean {
-
-        var changes = false
-        if (count < 5) {
-            // random index of unused buttons
-            val x = Random.nextInt(unusedButtons.size)
-            unusedButtons[x].text = "O"
-            usedButtons.add(unusedButtons[x])
-            unusedButtons.removeAt(x)
-            count++
-            turn = !turn
-            changes = true
-        }
+    private fun checker(char: String){
         //check first horizontal
-        else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    a2
-                )
-            ) && a1.text == a2.text && a2.text == char && unusedButtons.contains(a3)
-        ) {
+        if (usedButtons.containsAll(listOf(a1, a2)) && a1.text == a2.text && a2.text == char && unusedButtons.contains(a3)) {
             usedButtons.add(a3)
             a3.text = "O"
             count += 1
             unusedButtons.remove(a3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a2,
-                    a3
-                )
-            ) && a2.text == a3.text && a3.text == char && unusedButtons.contains(a1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a2, a3)) && a2.text == a3.text && a3.text == char && unusedButtons.contains(a1)) {
             usedButtons.add(a1)
             a1.text = "O"
             count += 1
             unusedButtons.remove(a1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    a3
-                )
-            ) && a1.text == a3.text && a1.text == char && unusedButtons.contains(a2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a1, a3)) && a1.text == a3.text && a1.text == char && unusedButtons.contains(a2)) {
             usedButtons.add(a2)
             a2.text = "O"
             count += 1
             unusedButtons.remove(a2)
             turn = !turn
-            changes = true
         }
 
         //check second horizontal
-        else if (usedButtons.containsAll(
-                listOf(
-                    b1,
-                    b2
-                )
-            ) && b1.text == b2.text && b2.text == char && unusedButtons.contains(b3)
-        ) {
+        if (usedButtons.containsAll(listOf(b1, b2)) && b1.text == b2.text && b2.text == char && unusedButtons.contains(b3)) {
             usedButtons.add(b3)
             b3.text = "O"
             count += 1
             unusedButtons.remove(b3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b2,
-                    b3
-                )
-            ) && b2.text == b3.text && b3.text == char && unusedButtons.contains(b1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b2, b3)) && b2.text == b3.text && b3.text == char && unusedButtons.contains(b1)) {
             usedButtons.add(b1)
             b1.text = "O"
             count += 1
             unusedButtons.remove(b1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b1,
-                    b3
-                )
-            ) && b1.text == b3.text && b1.text == char && unusedButtons.contains(b2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b1, b3)) && b1.text == b3.text && b1.text == char && unusedButtons.contains(b2)) {
             usedButtons.add(b2)
             b2.text = "O"
             count += 1
             unusedButtons.remove(b2)
             turn = !turn
-            changes = true
         }
 
         //check third horizontal
-        else if (usedButtons.containsAll(
-                listOf(
-                    c1,
-                    c2
-                )
-            ) && c1.text == c2.text && c2.text == char && unusedButtons.contains(c3)
-        ) {
+        if (usedButtons.containsAll(listOf(c1, c2)) && c1.text == c2.text && c2.text == char && unusedButtons.contains(c3)) {
             usedButtons.add(c3)
             c3.text = "O"
             count += 1
             unusedButtons.remove(c3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    c2,
-                    c3
-                )
-            ) && c2.text == c3.text && c3.text == char && unusedButtons.contains(c1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(c2, c3)) && c2.text == c3.text && c3.text == char && unusedButtons.contains(c1)) {
             usedButtons.add(c1)
             c1.text = "O"
             count += 1
             unusedButtons.remove(c1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    c1,
-                    c3
-                )
-            ) && c1.text == c3.text && c1.text == char && unusedButtons.contains(c2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(c1, c3)) && c1.text == c3.text && c1.text == char && unusedButtons.contains(c2)) {
             usedButtons.add(c2)
             c2.text = "O"
             count += 1
             unusedButtons.remove(c2)
             turn = !turn
-            changes = true
         }
 
         // check first vertical
-        else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    b1
-                )
-            ) && a1.text == b1.text && b1.text == char && unusedButtons.contains(c1)
-        ) {
+        if (usedButtons.containsAll(listOf(a1, b1)) && a1.text == b1.text && b1.text == char  && unusedButtons.contains(c1)) {
             usedButtons.add(c1)
             c1.text = "O"
             count += 1
             unusedButtons.remove(c1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b1,
-                    c1
-                )
-            ) && b1.text == c1.text && b1.text == char && unusedButtons.contains(a1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b1, c1)) && b1.text == c1.text && b1.text == char && unusedButtons.contains(a1)) {
             usedButtons.add(a1)
             a1.text = "O"
             count += 1
             unusedButtons.remove(a1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    c1
-                )
-            ) && a1.text == c1.text && a1.text == char && unusedButtons.contains(b1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a1, c1)) && a1.text == c1.text && a1.text == char && unusedButtons.contains(b1)) {
             usedButtons.add(b1)
             b1.text = "O"
             count += 1
             unusedButtons.remove(b1)
             turn = !turn
-            changes = true
         }
 
 
         //check second vertical
-        else if (usedButtons.containsAll(
-                listOf(
-                    a2,
-                    b2
-                )
-            ) && a2.text == b2.text && b2.text == char && unusedButtons.contains(c2)
-        ) {
+        if (usedButtons.containsAll(listOf(a2, b2)) && a2.text == b2.text && b2.text == char && unusedButtons.contains(c2)) {
             usedButtons.add(c2)
             c2.text = "O"
             count += 1
             unusedButtons.remove(c2)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b2,
-                    c2
-                )
-            ) && b2.text == c2.text && b2.text == char && unusedButtons.contains(a2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b2, c2)) && b2.text == c2.text && b2.text == char && unusedButtons.contains(a2)) {
             usedButtons.add(a2)
             a2.text = "O"
             count += 1
             unusedButtons.remove(a2)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a2,
-                    c2
-                )
-            ) && a2.text == c2.text && a2.text == char && unusedButtons.contains(b2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a2, c2)) && a2.text == c2.text && a2.text == char && unusedButtons.contains(b2)) {
             usedButtons.add(b2)
             b2.text = "O"
             count += 1
             unusedButtons.remove(b2)
             turn = !turn
-            changes = true
         }
 
         //check third vertical
-        else if (usedButtons.containsAll(
-                listOf(
-                    a3,
-                    b3
-                )
-            ) && a3.text == b3.text && b3.text == char && unusedButtons.contains(c3)
-        ) {
+        if (usedButtons.containsAll(listOf(a3, b3)) && a3.text == b3.text && b3.text == char && unusedButtons.contains(c3)) {
             usedButtons.add(c3)
             c3.text = "O"
             count += 1
             unusedButtons.remove(c3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b3,
-                    c3
-                )
-            ) && b3.text == c3.text && b3.text == char && unusedButtons.contains(a3)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b3, c3)) && b3.text == c3.text && b3.text == char && unusedButtons.contains(a3)) {
             usedButtons.add(a3)
             a3.text = "O"
             count += 1
             unusedButtons.remove(a3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a3,
-                    c3
-                )
-            ) && a3.text == c3.text && a3.text == char && unusedButtons.contains(b3)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a3, c3)) && a3.text == c3.text && a3.text == char && unusedButtons.contains(b3)) {
             usedButtons.add(b3)
             b3.text = "O"
             count += 1
             unusedButtons.remove(b3)
             turn = !turn
-            changes = true
         }
 
         // check first diagonal
-        else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    b2
-                )
-            ) && a1.text == b2.text && b2.text == char && unusedButtons.contains(c3)
-        ) {
+        if (usedButtons.containsAll(listOf(a1, b2)) && a1.text == b2.text && b2.text == char && unusedButtons.contains(c3)) {
             usedButtons.add(c3)
             c3.text = "O"
             count += 1
             unusedButtons.remove(c3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b2,
-                    c3
-                )
-            ) && b2.text == c3.text && b2.text == char && unusedButtons.contains(a1)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b2, c3)) && b2.text == c3.text && b2.text == char && unusedButtons.contains(a1)) {
             usedButtons.add(a1)
             a1.text = "O"
             count += 1
             unusedButtons.remove(a1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a1,
-                    c3
-                )
-            ) && a1.text == c3.text && a1.text == char && unusedButtons.contains(b2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a1, c3)) && a1.text == c3.text && a1.text == char && unusedButtons.contains(b2)) {
             usedButtons.add(b2)
             b2.text = "O"
             count += 1
             unusedButtons.remove(b2)
             turn = !turn
-            changes = true
         }
 
         // check second diagonal
-        else if (usedButtons.containsAll(
-                listOf(
-                    a3,
-                    b2
-                )
-            ) && a3.text == b2.text && b2.text == char && unusedButtons.contains(c1)
-        ) {
+        if (usedButtons.containsAll(listOf(a3, b2)) && a3.text == b2.text && b2.text == char && unusedButtons.contains(c1)) {
             usedButtons.add(c1)
             c1.text = "O"
             count += 1
             unusedButtons.remove(c1)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    b2,
-                    c1
-                )
-            ) && b2.text == c1.text && b2.text == char && unusedButtons.contains(a3)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(b2, c1)) && b2.text == c1.text && b2.text == char && unusedButtons.contains(a3)) {
             usedButtons.add(a3)
             a3.text = "O"
             count += 1
             unusedButtons.remove(a3)
             turn = !turn
-            changes = true
-        } else if (usedButtons.containsAll(
-                listOf(
-                    a3,
-                    c1
-                )
-            ) && a3.text == c1.text && a3.text == char && unusedButtons.contains(b2)
-        ) {
+        }
+        else if (usedButtons.containsAll(listOf(a3, c1)) && a3.text == c1.text && a3.text == char && unusedButtons.contains(b2)) {
             usedButtons.add(b2)
             b2.text = "O"
             count += 1
             unusedButtons.remove(b2)
             turn = !turn
-            changes = true
         }
-        return changes
     }
 
     // function for computer move
     private fun compMove() {
         // check for a winning move
-        val changes = checker("O")
+        checker("O")
         //check for a blocking move
-        if (!changes) {
-            checker("X")
-        }
-
+        checker("X")
     }
 
 }
